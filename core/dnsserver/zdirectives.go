@@ -10,6 +10,8 @@ package dnsserver
 // (after) them during a request, but they must not
 // care what plugin above them are doing.
 var Directives = []string{
+	"socks",
+	"dualforwardsocks",
 	"root",
 	"metadata",
 	"geoip",
@@ -63,5 +65,4 @@ var Directives = []string{
 	"on",
 	"sign",
 	"view",
-	"socks",
 }

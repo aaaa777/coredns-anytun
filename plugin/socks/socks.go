@@ -13,9 +13,10 @@ import (
 )
 
 type SOCKSPlugin struct {
-	Next       plugin.Handler
-	ProxyAddr  string
-	DNSServers []string
+	Next         plugin.Handler
+	TargetDomain string
+	ProxyAddr    string
+	DNSServers   []string
 }
 
 func (s *SOCKSPlugin) Name() string { return "socks" }
@@ -58,12 +59,13 @@ func (s *SOCKSPlugin) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns
 
 // プラグインの設定を解析する関数
 func (s *SOCKSPlugin) Parse(tokens []string) error {
-	if len(tokens) < 3 {
-		return fmt.Errorf("socks requires at least 3 arguments: <proxy-addr> <dns-server1> [dns-server2...]")
+	if len(tokens) < 4 {
+		return fmt.Errorf("socks requires at least 3 arguments: <target-domain> <proxy-addr> <dns-server1> [dns-server2...]")
 	}
 
-	s.ProxyAddr = tokens[0]
-	s.DNSServers = tokens[1:]
+	s.TargetDomain = tokens[0]
+	s.ProxyAddr = tokens[1]
+	s.DNSServers = tokens[2:]
 
 	return nil
 }
